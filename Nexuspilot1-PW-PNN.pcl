@@ -1,0 +1,191 @@
+# Nexuspilot1 = picture - word: Positive -> Neutral -> Negative
+	
+#LET OP SHUFFLE AAN!!!!!!!!!!!!!
+negpics.shuffle();
+neupics.shuffle();
+pospics.shuffle();
+
+negwords.shuffle();
+neuwords.shuffle();
+poswords.shuffle();
+
+output_port port = output_port_manager.get_port( 1 );
+
+int var_hor = display_device.width();
+int var_vert = display_device.height();
+int pict_y = var_vert/10;
+int text_y1 = (var_vert/4);
+int text_y2 = 2*(var_vert/4)-2*pict_y;
+
+# 1024*768 resolutie van de plaatjes
+
+array<int> jitterlengths_pictures[51] = { 
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000} ;
+
+array<int> jitterlengths_words[51] = { 
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000, 3000,
+0, 1000, 2000} ;
+
+jitterlengths_pictures.shuffle();
+jitterlengths_words.shuffle();
+
+########## Main experiment
+loop int j = 1 until j > jitterlengths_pictures.count() begin
+	
+welkomscherm.present();
+fixtrial.present();
+practicepicturetrial.present();
+recoverytrial.present();
+beginscherm.present();
+
+loop int i = 1 until i > pospics.count() begin
+	pospic.set_part( 1, pospics[i] );
+	string pospiccode = pospics[i].description();
+	pospicevent.set_event_code(pospiccode); 
+	int pospicportcode = int (pospics[i].description());
+	pospicevent.set_port_code(pospicportcode);
+	int jitterlength = jitterlengths_pictures[j];
+   jitter_event.set_duration(jitterlength);
+	fixtrial.present();
+   pospictrial.present();
+   recoverytrial.present();
+   jittertrial.present();
+   
+   i = i + 1;
+   j = j + 1;
+end;
+
+betweenblocks.present();
+
+loop int i = 1 until i > neupics.count() begin
+	neupic.set_part( 1, neupics[i] );
+	string neupiccode = neupics[i].description();
+	neupicevent.set_event_code(neupiccode); 
+	int neupicportcode = int (neupics[i].description());
+	neupicevent.set_port_code(neupicportcode);
+	int jitterlength = jitterlengths_pictures[j];
+   jitter_event.set_duration(jitterlength);
+	fixtrial.present();
+   neupictrial.present();
+   recoverytrial.present();
+   jittertrial.present();
+   
+   i = i + 1;
+   j = j + 1;
+end;
+
+betweenblocks.present();
+
+loop int i = 1 until i > negpics.count() begin
+#	if i== 6 then
+#		breaks.present();										# present the break before each condition
+#		endpause.present();									
+#	end;
+	negpic.set_part( 1, negpics[i] );
+	string negpiccode = negpics[i].description();
+	negpicevent.set_event_code(negpiccode); 
+	int negpicportcode = int (negpics[i].description());
+	negpicevent.set_port_code(negpicportcode);
+	int jitterlength = jitterlengths_pictures[j];
+   jitter_event.set_duration(jitterlength);
+	fixtrial.present();
+   negpictrial.present();
+   recoverytrial.present();
+   jittertrial.present();
+   
+   i = i + 1;
+   j = j + 1;
+end;
+
+end;
+
+loop int k = 1 until k > jitterlengths_words.count() begin
+
+breaks.present();
+endpause.present();
+fixtrial.present();
+practicetexttrial.present();
+recoverytrial.present();
+vervolgscherm.present();
+
+loop int i = 1 until i > poswords.count() begin
+	posword.set_part( 1, poswords[i] );
+	string poswordcode = poswords[i].description();
+	poswordevent.set_event_code(poswordcode); 
+	int poswordportcode = int (poswords[i].description());
+	poswordevent.set_port_code(poswordportcode);
+	int jitterlength = jitterlengths_words[k];
+   jitter_event.set_duration(jitterlength);
+	fixtrial.present();
+   poswordtrial.present();
+   recoverytrial.present();
+   jittertrial.present();
+   
+   i = i + 1;
+   k = k + 1;
+end;
+
+betweenblocks.present();
+
+loop int i = 1 until i > neuwords.count() begin
+	neuword.set_part( 1, neuwords[i] );
+	string neuwordcode = neuwords[i].description();
+	neuwordevent.set_event_code(neuwordcode); 
+	int neuwordportcode = int (neuwords[i].description());
+	neuwordevent.set_port_code(neuwordportcode);
+	int jitterlength = jitterlengths_words[k];
+   jitter_event.set_duration(jitterlength);
+	fixtrial.present();
+   neuwordtrial.present();
+   recoverytrial.present();
+   jittertrial.present();
+   
+   i = i + 1;
+   k = k + 1;
+end;
+
+betweenblocks.present();
+
+loop int i = 1 until i > negwords.count() begin
+	negword.set_part( 1, negwords[i] );
+	string negwordcode = negwords[i].description();
+	negwordevent.set_event_code(negwordcode); 
+	int negwordportcode = int (negwords[i].description());
+	negwordevent.set_port_code(negwordportcode);
+	int jitterlength = jitterlengths_words[k];
+   jitter_event.set_duration(jitterlength);
+	fixtrial.present();
+   negwordtrial.present();
+   recoverytrial.present();
+   jittertrial.present();
+   
+   i = i + 1;
+   k = k + 1;
+end;
+
+end;
+
+eindscherm.present();
